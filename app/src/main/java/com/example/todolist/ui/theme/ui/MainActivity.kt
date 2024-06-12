@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Create
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -49,6 +50,7 @@ class MainActivity : ComponentActivity() {
             val navHostController: NavHostController = rememberNavController()
             val isBottomBarVisible = remember { mutableStateOf(true) }
             val showArrowIcon = remember { mutableStateOf(false) }
+            val showEditIcon = remember { mutableStateOf(false) }
 
             ToDoListTheme {
 
@@ -74,6 +76,18 @@ class MainActivity : ComponentActivity() {
                                              }) {
                                                  Icon(
                                                      imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                                     contentDescription = null
+                                                 )
+                                             }
+                                         }
+                                     },
+                                     actions = {
+                                         AnimatedVisibility(visible = showEditIcon.value) {
+                                             IconButton(onClick = {
+                                                 navHostController.navigate(TodoScreens.createTaskScreen)
+                                             }) {
+                                                 Icon(
+                                                     imageVector = Icons.Filled.Create,
                                                      contentDescription = null
                                                  )
                                              }
@@ -112,7 +126,8 @@ class MainActivity : ComponentActivity() {
                                 TodoNavHost(
                                     navHostController = navHostController,
                                     showArrowIcon = showArrowIcon,
-                                    isBottomBarVisible = isBottomBarVisible
+                                    isBottomBarVisible = isBottomBarVisible,
+                                    showEditIcon = showEditIcon
                                 )
                             }
 

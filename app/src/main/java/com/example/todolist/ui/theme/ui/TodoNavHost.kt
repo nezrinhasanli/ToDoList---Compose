@@ -16,6 +16,7 @@ fun TodoNavHost(
     navHostController: NavHostController,
     viewModel: ToDoListViewModel = hiltViewModel(),
     showArrowIcon: MutableState<Boolean>,
+    showEditIcon: MutableState<Boolean>,
     isBottomBarVisible: MutableState<Boolean>
 ) {
     NavHost(
@@ -25,11 +26,13 @@ fun TodoNavHost(
         composable(TodoScreens.todoListScreen) {
             ToDoListScreen(viewModel = viewModel, navController = navHostController)
             showArrowIcon.value = false
+            showEditIcon.value = false
             isBottomBarVisible.value = true
         }
         composable(TodoScreens.createTaskScreen) {
             CreateNewTask(viewModel = viewModel,navController = navHostController)
             showArrowIcon.value = true
+            showEditIcon.value = false
             isBottomBarVisible.value = false
 
         }
@@ -37,6 +40,7 @@ fun TodoNavHost(
         composable(TodoScreens.toDoDetailScreen) {
             ToDoDetailScreen(viewModel = viewModel)
             showArrowIcon.value = true
+            showEditIcon.value = true
             isBottomBarVisible.value = false
 
         }

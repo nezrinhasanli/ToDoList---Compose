@@ -16,7 +16,7 @@ interface ToDoListDao {
     suspend fun delete(todo: ToDoItem)
 
     @Query("SELECT * FROM list WHERE id = :id")
-    fun getTodoItemById(id: Int): List<ToDoItem>
+    fun getTodoItemById(id: Int): ToDoItem
 
     @Query("SELECT * FROM list")
     suspend fun getAllToDoList(): List<ToDoItem>

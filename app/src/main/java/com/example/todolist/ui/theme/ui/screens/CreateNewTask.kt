@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -49,6 +50,10 @@ fun CreateNewTask(
     ){
     val datePickerState = rememberDatePickerState()
     var showDatePickerDialog by remember { mutableStateOf(false) }
+
+    LaunchedEffect(key1 = viewModel.itemId) {
+        viewModel.getTodoItemById()
+    }
 
     if(showDatePickerDialog){
         DatePickerDialog(
@@ -122,7 +127,13 @@ fun CreateNewTask(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 16.dp)
         ) {
-            Text(text = "Confirm")
+            Text(
+                text =
+            if (viewModel.title.value.text.isBlank()
+                && viewModel.note.value.text.isBlank()
+                && viewModel.date.value.isBlank()) "Create"
+            else "Update"
+            )
         }
     }
 }
