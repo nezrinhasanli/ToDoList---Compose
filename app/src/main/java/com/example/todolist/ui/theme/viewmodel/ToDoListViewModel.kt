@@ -47,20 +47,23 @@ class ToDoListViewModel @Inject constructor(private val repository:ToDoListRepos
         }
     }
 
-    fun updateTodo(todo: ToDoItem) {
-        _todoListState.value = LCE.loading()
+    fun updateTodo() {
+        val todo = ToDoItem(
+            id = itemId,
+            title = title.value.text,
+            note = note.value.text,
+            date = date.value
+        )
         viewModelScope.launch(Dispatchers.IO){
-            try {
                 repository.update(todo)
-                _todoListState.value = LCE.content(listOf(todo))
-
-            }
-            catch(e: Exception) {
-                _todoListState.value = LCE.error()
-            }
         }
     }
 
+    fun clear(){
+        title.value = TextFieldValue("")
+        note.value = TextFieldValue("")
+        date.value = ""
+    }
     fun deleteTodo(todo: ToDoItem) {
 
         viewModelScope.launch(Dispatchers.IO){

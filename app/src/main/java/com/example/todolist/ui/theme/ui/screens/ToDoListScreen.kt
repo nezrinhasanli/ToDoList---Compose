@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,6 +34,7 @@ import com.example.todolist.ui.theme.models.Status
 import com.example.todolist.ui.theme.ui.TodoScreens
 import com.example.todolist.ui.theme.ui.components.SwipeToDeleteContainer
 import com.example.todolist.ui.theme.viewmodel.ToDoListViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun ToDoListScreen(
@@ -40,6 +42,7 @@ fun ToDoListScreen(
     navController: NavHostController = rememberNavController()
 ) {
     val todoItemsState by viewModel.todoListState.collectAsState()
+    val scope = rememberCoroutineScope()
 
     LaunchedEffect(key1 = true) {
         viewModel.getAllToDoList()
@@ -64,8 +67,11 @@ fun ToDoListScreen(
                                 title = todoItem.title ?: "",
                                 date = todoItem.date ?: "",
                                 onItemClick = {
-                                    viewModel.itemId = todoItem.id ?: 0
-                                    navController.navigate(TodoScreens.toDoDetailScreen)
+                                    scope.launch {
+                                        viewModel.itemId = todoItem.id ?: 0
+                                        navController.navigate(TodoScreens.toDoDetailScreen)
+                                    }
+
                                 }
                             )
                         }

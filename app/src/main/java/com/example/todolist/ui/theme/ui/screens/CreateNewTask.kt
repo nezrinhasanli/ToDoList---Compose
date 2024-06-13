@@ -46,7 +46,8 @@ import com.example.todolist.ui.theme.viewmodel.ToDoListViewModel
 @Composable
 fun CreateNewTask(
     viewModel: ToDoListViewModel = hiltViewModel(),
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    isEdit: Boolean = false
     ){
     val datePickerState = rememberDatePickerState()
     var showDatePickerDialog by remember { mutableStateOf(false) }
@@ -120,7 +121,12 @@ fun CreateNewTask(
         Spacer(modifier = Modifier.weight(1f))
         Button(
             onClick = {
-                 viewModel.insertTodo()
+                if (isEdit){
+                    viewModel.updateTodo()
+                }
+                else{
+                    viewModel.insertTodo()
+                }
                 navController.navigate(TodoScreens.todoListScreen)
             },
             modifier = Modifier
@@ -128,11 +134,7 @@ fun CreateNewTask(
                 .padding(horizontal = 16.dp, vertical = 16.dp)
         ) {
             Text(
-                text =
-            if (viewModel.title.value.text.isBlank()
-                && viewModel.note.value.text.isBlank()
-                && viewModel.date.value.isBlank()) "Create"
-            else "Update"
+                text = if(!isEdit) "Create" else "Update"
             )
         }
     }
