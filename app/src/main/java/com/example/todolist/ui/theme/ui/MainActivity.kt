@@ -99,6 +99,7 @@ class MainActivity : ComponentActivity() {
                                                  viewModel.title.value = TextFieldValue(text = todoItemState.data?.title.toString())
                                                  viewModel.note.value = TextFieldValue(text = todoItemState.data?.note.toString())
                                                  viewModel.date.value = todoItemState.data?.date.toString()
+                                                 viewModel.time.value = todoItemState.data?.time.toString()
                                                  navHostController.navigate(TodoScreens.createTaskScreen)
                                              }) {
                                                  Icon(

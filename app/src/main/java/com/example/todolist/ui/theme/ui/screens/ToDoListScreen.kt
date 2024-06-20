@@ -66,6 +66,7 @@ fun ToDoListScreen(
                             ToDoListBox(
                                 title = todoItem.title ?: "",
                                 date = todoItem.date ?: "",
+                                time = todoItem.time ?: "",
                                 onItemClick = {
                                     scope.launch {
                                         viewModel.itemId = todoItem.id ?: 0
@@ -93,6 +94,7 @@ fun ToDoListScreen(
 fun ToDoListBox(
     title: String,
     date: String,
+    time: String,
     onItemClick: () -> Unit = {}
     ) {
 
@@ -115,7 +117,7 @@ fun ToDoListBox(
                 )
 
             Text(
-                text = date,
+                text = "$date $time",
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
 

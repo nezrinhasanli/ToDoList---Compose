@@ -1,36 +1,32 @@
 package com.example.todolist.ui.theme.ui.screens
 
+import android.app.TimePickerDialog
+import android.util.Log
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TimePicker
 import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -38,8 +34,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.todolist.ui.theme.core.toTimeDateString
 import com.example.todolist.ui.theme.ui.TodoScreens
-import com.example.todolist.ui.theme.ui.components.DatePickerBox
+import com.example.todolist.ui.theme.ui.components.PickerBox
 import com.example.todolist.ui.theme.ui.components.TextFieldInput
+import com.example.todolist.ui.theme.ui.components.TimePickerDialog
 import com.example.todolist.ui.theme.viewmodel.ToDoListViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,8 +46,12 @@ fun CreateNewTask(
     navController: NavHostController = rememberNavController(),
     isEdit: Boolean = false
     ){
-    val datePickerState = rememberDatePickerState()
+
     var showDatePickerDialog by remember { mutableStateOf(false) }
+    var showTimePickerDialog by remember { mutableStateOf(false) }
+    var toggleIsChecked by remember { mutableStateOf(false) }
+    val datePickerState = rememberDatePickerState()
+    val timePickerState = rememberTimePickerState()
 
     LaunchedEffect(key1 = viewModel.itemId) {
         viewModel.getTodoItemById()
@@ -78,6 +79,31 @@ fun CreateNewTask(
             content = { DatePicker(state = datePickerState) }
         )
     }
+
+    if (showTimePickerDialog) {
+
+       TimePickerDialog(
+           onDismissRequest = { showTimePickerDialog = false },
+           confirmButton = {
+               TextButton(
+                   onClick = {
+                       viewModel.time.value = timePickerState.hour.toString() + ":" + timePickerState.minute.toString()
+                       showTimePickerDialog = false
+                   }
+               ) { Text("Confirm") }
+                           },
+           dismissButton = {
+               TextButton(onClick = { showTimePickerDialog = false }) {
+                   Text(text = "Dismiss")
+               }
+           }
+       ) {
+           TimePicker(state = timePickerState)
+           Log.d("Time", timePickerState.hour.toString() + ":" + timePickerState.minute.toString())
+       }
+
+    }
+
     Column(modifier = Modifier.fillMaxSize()) {
         Text(
             text = "Title",
@@ -104,20 +130,58 @@ fun CreateNewTask(
             onValueChange = {
                 viewModel.note.value = it
             })
-        Text(
-            text = "Date",
-            fontSize = 17.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(start = 16.dp, top = 24.dp, bottom = 8.dp)
 
-        )
-        DatePickerBox(
-            onClick = {
-                showDatePickerDialog = true
-            },
-            label = "Enter date here",
-            value = viewModel.date.value
-        )
+        Row(
+            modifier = Modifier.padding(start = 16.dp, top = 24.dp, end = 16.dp),
+        ) {
+            Text(
+                text = "Date is enabled",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp)
+                    .weight(1f),
+                fontSize = 17.sp
+                )
+            Switch(
+                checked = toggleIsChecked,
+                onCheckedChange = {
+                    toggleIsChecked = it
+                },
+            )
+        }
+
+        if(toggleIsChecked){
+            Text(
+                text = "Date",
+                fontSize = 17.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(start = 16.dp, top = 24.dp, bottom = 8.dp)
+
+            )
+            PickerBox(
+                onClick = {
+                    showDatePickerDialog = true
+                },
+                label = "Enter date here",
+                value = viewModel.date.value
+            )
+
+            Text(
+                text = "Time",
+                fontSize = 17.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(start = 16.dp, top = 24.dp, bottom = 8.dp)
+            )
+
+            PickerBox(
+                onClick = {
+                    showTimePickerDialog = true
+                },
+                label = "Enter time here",
+                value = viewModel.time.value
+            )
+        }
+
         Spacer(modifier = Modifier.weight(1f))
         Button(
             onClick = {

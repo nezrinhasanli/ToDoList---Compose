@@ -32,6 +32,7 @@ class ToDoListViewModel @Inject constructor(private val repository:ToDoListRepos
     val note = mutableStateOf(TextFieldValue())
     val title = mutableStateOf(TextFieldValue())
     val date = mutableStateOf("")
+    val time = mutableStateOf("")
     var itemId = 0
 
 
@@ -40,7 +41,8 @@ class ToDoListViewModel @Inject constructor(private val repository:ToDoListRepos
         val todo = ToDoItem(
             title = title.value.text,
             note = note.value.text,
-            date = date.value
+            date = date.value,
+            time = time.value
         )
         viewModelScope.launch(Dispatchers.IO){
             repository.insert(todo)
@@ -52,7 +54,8 @@ class ToDoListViewModel @Inject constructor(private val repository:ToDoListRepos
             id = itemId,
             title = title.value.text,
             note = note.value.text,
-            date = date.value
+            date = date.value,
+            time = time.value
         )
         viewModelScope.launch(Dispatchers.IO){
                 repository.update(todo)
@@ -63,6 +66,7 @@ class ToDoListViewModel @Inject constructor(private val repository:ToDoListRepos
         title.value = TextFieldValue("")
         note.value = TextFieldValue("")
         date.value = ""
+        time.value = ""
     }
     fun deleteTodo(todo: ToDoItem) {
 

@@ -9,5 +9,6 @@ data class ToDoItem(
     @PrimaryKey(autoGenerate = true) var id: Int? = null,
     @ColumnInfo(name = "title") var title: String? = null,
     @ColumnInfo(name = "note") val note: String? = null,
-    @ColumnInfo(name = "date") val date: String? = null
+    @ColumnInfo(name = "date") val date: String? = null,
+    @ColumnInfo(name = "time") val time: String? = null
 )
