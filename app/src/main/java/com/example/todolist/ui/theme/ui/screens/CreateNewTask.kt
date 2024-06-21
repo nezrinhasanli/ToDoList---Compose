@@ -1,6 +1,5 @@
 package com.example.todolist.ui.theme.ui.screens
 
-import android.app.TimePickerDialog
 import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,7 +19,6 @@ import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,7 +33,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.todolist.ui.theme.core.toTimeDateString
 import com.example.todolist.ui.theme.ui.TodoScreens
 import com.example.todolist.ui.theme.ui.components.PickerBox
-import com.example.todolist.ui.theme.ui.components.TextFieldInput
+import com.example.todolist.ui.theme.ui.components.TaskOutlinedTextField
 import com.example.todolist.ui.theme.ui.components.TimePickerDialog
 import com.example.todolist.ui.theme.viewmodel.ToDoListViewModel
 
@@ -111,7 +109,7 @@ fun CreateNewTask(
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(start = 16.dp, top = 16.dp)
             )
-        TextFieldInput(
+        TaskOutlinedTextField(
             label = "Enter title here",
             value = viewModel.title.value,
             onValueChange = {
@@ -124,7 +122,7 @@ fun CreateNewTask(
             modifier = Modifier.padding(start = 16.dp, top = 24.dp)
 
             )
-        TextFieldInput(
+        TaskOutlinedTextField(
             label = "Enter task here",
             value = viewModel.note.value,
             onValueChange = {

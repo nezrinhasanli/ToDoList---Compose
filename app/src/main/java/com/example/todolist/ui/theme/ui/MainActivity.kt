@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomAppBarDefaults
@@ -23,6 +24,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -35,7 +37,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,6 +45,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.ToDoListTheme
+import com.example.todolist.R
 import com.example.todolist.ui.theme.viewmodel.ToDoListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -79,7 +82,7 @@ class MainActivity : ComponentActivity() {
                                              textAlign = TextAlign.Start
                                              )
                                      },
-                                     colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
+                                     colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
                                      navigationIcon = {
                                          AnimatedVisibility(visible = showArrowIcon.value) {
                                              IconButton(onClick = {
@@ -120,6 +123,25 @@ class MainActivity : ComponentActivity() {
                             ) {
                                 BottomAppBar(
                                     actions = {
+                                        IconButton(onClick = {
+                                            scope.launch {
+                                                navHostController.navigate(TodoScreens.checkBoxScreen)
+                                            }
+                                        }) {
+                                            Icon(
+                                                imageVector = Icons.Filled.Check ,
+                                                contentDescription = "checked",
+                                            )
+                                        }
+
+                                        IconButton(onClick = {
+
+                                        }) {
+                                            Icon(
+                                               painter = painterResource(id = R.drawable.image_icon) ,
+                                                contentDescription = "image"
+                                            )
+                                        }
 
                                     },
                                     floatingActionButton = {

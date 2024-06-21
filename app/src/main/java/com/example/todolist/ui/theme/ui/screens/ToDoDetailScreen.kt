@@ -38,7 +38,7 @@ fun ToDoDetailScreen(viewModel: ToDoListViewModel = hiltViewModel()){
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(horizontal = 16.dp),
+                        .padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
 

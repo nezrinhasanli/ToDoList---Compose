@@ -6,6 +6,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.todolist.ui.theme.ui.screens.CheckBoxList
 import com.example.todolist.ui.theme.ui.screens.CreateNewTask
 import com.example.todolist.ui.theme.ui.screens.ToDoDetailScreen
 import com.example.todolist.ui.theme.ui.screens.ToDoListScreen
@@ -42,7 +43,12 @@ fun TodoNavHost(
             showArrowIcon.value = true
             showEditIcon.value = true
             isBottomBarVisible.value = false
-
+        }
+        composable(TodoScreens.checkBoxScreen) {
+            CheckBoxList(viewModel = viewModel)
+            showArrowIcon.value = true
+            showEditIcon.value = false
+            isBottomBarVisible.value = false
         }
 
     }
@@ -52,5 +58,6 @@ object TodoScreens {
     const val todoListScreen = "todoListScreen"
     const val createTaskScreen = "createTaskScreen"
     const val toDoDetailScreen = "toDoDetailScreen"
+    const val checkBoxScreen = "checkBoxScreen"
 }
 

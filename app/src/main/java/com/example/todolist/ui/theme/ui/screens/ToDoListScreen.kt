@@ -3,6 +3,7 @@ package com.example.todolist.ui.theme.ui.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -67,6 +68,7 @@ fun ToDoListScreen(
                                 title = todoItem.title ?: "",
                                 date = todoItem.date ?: "",
                                 time = todoItem.time ?: "",
+                                note = todoItem.note ?: "",
                                 onItemClick = {
                                     scope.launch {
                                         viewModel.itemId = todoItem.id ?: 0
@@ -95,6 +97,7 @@ fun ToDoListBox(
     title: String,
     date: String,
     time: String,
+    note: String,
     onItemClick: () -> Unit = {}
     ) {
 
@@ -108,18 +111,18 @@ fun ToDoListBox(
             .clip(shape = shape)
             .clickable { onItemClick() }
     ) {
-        Column {
+        Column(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(2.dp)
+        ) {
             Text(
                 text = title,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold
                 )
 
-            Text(
-                text = "$date $time",
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-            )
+            Text(text = note)
+            Text(text = "$date $time")
 
         }
     }
