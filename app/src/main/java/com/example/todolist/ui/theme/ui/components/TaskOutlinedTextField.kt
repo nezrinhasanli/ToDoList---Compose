@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun TaskOutlinedTextField(
     label: String,
+    placeHolder: String = "",
     value: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
@@ -28,6 +29,7 @@ fun TaskOutlinedTextField(
         value = value,
         onValueChange = onValueChange,
         label = { Text(label) },
+        placeholder = { Text(text = placeHolder) },
         colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
             unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
@@ -36,8 +38,6 @@ fun TaskOutlinedTextField(
         textStyle = TextStyle(fontSize = 18.sp),
         shape = RoundedCornerShape(12.dp),
         keyboardOptions = keyboardOptions,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
+        modifier = Modifier.fillMaxWidth()
     )
 }

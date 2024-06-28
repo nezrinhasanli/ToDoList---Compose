@@ -26,7 +26,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -61,17 +60,17 @@ fun ToDoListScreen(
             Status.CONTENT -> {
 
                 LazyColumn {
-                    items(todoItemsState.data ?: emptyList(), key = {it.id ?: 0}) { item ->
+                    items(todoItemsState.data ?: emptyList(), key = {it.todo.listId ?: 0}) { item ->
 
-                        SwipeToDeleteContainer(item = item, onDelete = { viewModel.deleteTodo(item)}) { todoItem ->
+                        SwipeToDeleteContainer(item = item, onDelete = { viewModel.deleteTodo(item.todo)}) { todoItem ->
                             ToDoListBox(
-                                title = todoItem.title ?: "",
-                                date = todoItem.date ?: "",
-                                time = todoItem.time ?: "",
-                                note = todoItem.note ?: "",
+                                title = todoItem.todo.title ?: "",
+                                date = todoItem.todo.date ?: "",
+                                time = todoItem.todo.time ?: "",
+                                note = todoItem.todo.note ?: "",
                                 onItemClick = {
                                     scope.launch {
-                                        viewModel.itemId = todoItem.id ?: 0
+                                        viewModel.itemId = todoItem.todo.listId ?: 0
                                         navController.navigate(TodoScreens.toDoDetailScreen)
                                     }
 

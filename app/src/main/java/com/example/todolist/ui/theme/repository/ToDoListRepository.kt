@@ -2,6 +2,7 @@ package com.example.todolist.ui.theme.repository
 
 import com.example.todolist.ui.theme.room.ToDoItem
 import com.example.todolist.ui.theme.room.ToDoListDao
+import com.example.todolist.ui.theme.room.TodoAndCheckedItems
 import javax.inject.Inject
 
 class ToDoListRepository @Inject constructor(private val toDoDao:ToDoListDao) {
@@ -12,10 +13,10 @@ class ToDoListRepository @Inject constructor(private val toDoDao:ToDoListDao) {
     suspend fun delete(todo: ToDoItem) = toDoDao.delete(todo)
 
 
-    suspend fun update(todo: ToDoItem) = toDoDao.update(todo.id, todo.title, todo.note)
+    suspend fun update(todo: ToDoItem) = toDoDao.update(todo.listId, todo.title, todo.note)
 
     fun getTodoItemById(id: Int) = toDoDao.getTodoItemById(id)
 
-    suspend fun getAllToDoList(): List<ToDoItem> = toDoDao.getAllToDoList()
+    suspend fun getAllToDoList(): List<TodoAndCheckedItems> = toDoDao.getAllToDoList()
 
 }

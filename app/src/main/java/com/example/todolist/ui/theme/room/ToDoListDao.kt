@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 
 @Dao
 interface ToDoListDao {
@@ -15,12 +16,13 @@ interface ToDoListDao {
     @Delete
     suspend fun delete(todo: ToDoItem)
 
-    @Query("SELECT * FROM list WHERE id = :id")
+    @Query("SELECT * FROM list WHERE listId = :id")
     fun getTodoItemById(id: Int): ToDoItem
 
+    @Transaction
     @Query("SELECT * FROM list")
-    suspend fun getAllToDoList(): List<ToDoItem>
+    suspend fun getAllToDoList(): List<TodoAndCheckedItems>
 
-    @Query("UPDATE list set title = :title, note = :note where id = :id")
+    @Query("UPDATE list set title = :title, note = :note where listId = :id")
     suspend fun update(id: Int?, title: String?, note: String?)
 }

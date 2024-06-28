@@ -6,23 +6,32 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todolist.ui.theme.models.LCE
 import com.example.todolist.ui.theme.repository.ToDoListRepository
+import com.example.todolist.ui.theme.room.CheckedItem
 import com.example.todolist.ui.theme.room.ToDoItem
+import com.example.todolist.ui.theme.room.TodoAndCheckedItems
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ToDoListViewModel @Inject constructor(private val repository:ToDoListRepository):ViewModel() {
 
-    private val _todoListState = MutableStateFlow(LCE<List<ToDoItem>>())
+    private val _todoListState = MutableStateFlow(LCE<List<TodoAndCheckedItems>>())
 
-    val todoListState: MutableStateFlow<LCE<List<ToDoItem>>>
+    val todoListState: MutableStateFlow<LCE<List<TodoAndCheckedItems>>>
         get() = _todoListState
 
     private val _todoItemState = MutableStateFlow(LCE<ToDoItem>())
+
+    private val _todoItemCheckedState = MutableStateFlow(mutableListOf(CheckedItem(checked = false, note = "")))
+    val todoItemCheckedState:    MutableStateFlow<MutableList<CheckedItem>>
+        get() = _todoItemCheckedState
 
     val todoItemState: MutableStateFlow<LCE<ToDoItem>>
         get() = _todoItemState
@@ -35,6 +44,13 @@ class ToDoListViewModel @Inject constructor(private val repository:ToDoListRepos
     val time = mutableStateOf("")
     var itemId = 0
 
+
+    fun addCheckedItem(item: CheckedItem) {
+
+        _todoItemCheckedState.value = (_todoItemCheckedState.value + item).toMutableList()
+
+
+    }
 
     fun insertTodo() {
 
@@ -51,7 +67,7 @@ class ToDoListViewModel @Inject constructor(private val repository:ToDoListRepos
 
     fun updateTodo() {
         val todo = ToDoItem(
-            id = itemId,
+            listId = itemId,
             title = title.value.text,
             note = note.value.text,
             date = date.value,
@@ -113,7 +129,21 @@ class ToDoListViewModel @Inject constructor(private val repository:ToDoListRepos
         }
     }
 
-//    fun updateTask(newValue: String){
-//        todoItemState.value = todoItemState.value.data.copy
+//    fun addNewCheckedItem(todoIndex: Int) {
+//        val updatedList = _todoItemCheckedState.value.toMutableList()
+//        val todo = updatedList[todoIndex].todo
+//        val newCheckedItem = CheckedItem(todoId = todo.listId, checked = false, title = "", note = "")
+//        updatedList[todoIndex] = updatedList[todoIndex].copy(
+//            checkedItems = updatedList[todoIndex].checkedItems + newCheckedItem
+//        )
+//        _todoItemCheckedState.value = updatedList
+//    }
+//
+//    fun updateCheckedItem(todoIndex: Int, checkedIndex: Int, newCheckedItem: CheckedItem) {
+//        val updatedList = _todoItemCheckedState.value.toMutableList()
+//        val checkedItems = updatedList[todoIndex].checkedItems.toMutableList()
+//        checkedItems[checkedIndex] = newCheckedItem
+//        updatedList[todoIndex] = updatedList[todoIndex].copy(checkedItems = checkedItems)
+//        _todoItemCheckedState.value = updatedList
 //    }
 }

@@ -45,7 +45,7 @@ fun TodoNavHost(
             isBottomBarVisible.value = false
         }
         composable(TodoScreens.checkBoxScreen) {
-            CheckBoxList(viewModel = viewModel)
+            CheckBoxList(viewModel = viewModel, navController = navHostController, isEdit = isEdit.value)
             showArrowIcon.value = true
             showEditIcon.value = false
             isBottomBarVisible.value = false

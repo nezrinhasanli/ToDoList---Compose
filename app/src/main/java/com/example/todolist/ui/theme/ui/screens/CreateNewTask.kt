@@ -1,6 +1,7 @@
 package com.example.todolist.ui.theme.ui.screens
 
 import android.util.Log
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -40,8 +41,8 @@ import com.example.todolist.ui.theme.viewmodel.ToDoListViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateNewTask(
-    viewModel: ToDoListViewModel = hiltViewModel(),
-    navController: NavHostController = rememberNavController(),
+    viewModel: ToDoListViewModel,
+    navController: NavHostController,
     isEdit: Boolean = false
     ){
 
@@ -102,41 +103,34 @@ fun CreateNewTask(
 
     }
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        Text(
-            text = "Title",
-            fontSize = 17.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(start = 16.dp, top = 16.dp)
-            )
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(start = 16.dp, end = 16.dp, top = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
         TaskOutlinedTextField(
-            label = "Enter title here",
+            label = "Title",
+            placeHolder = "Enter title here",
             value = viewModel.title.value,
             onValueChange = {
                 viewModel.title.value = it
             })
-        Text(
-            text = "Note",
-            fontSize = 17.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(start = 16.dp, top = 24.dp)
-
-            )
         TaskOutlinedTextField(
-            label = "Enter task here",
+            label = "Note",
+            placeHolder = "Enter note here",
             value = viewModel.note.value,
             onValueChange = {
                 viewModel.note.value = it
             })
 
         Row(
-            modifier = Modifier.padding(start = 16.dp, top = 24.dp, end = 16.dp),
+            modifier = Modifier.padding(top = 16.dp)
         ) {
             Text(
                 text = "Date is enabled",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp)
                     .weight(1f),
                 fontSize = 17.sp
                 )
@@ -149,26 +143,13 @@ fun CreateNewTask(
         }
 
         if(toggleIsChecked){
-            Text(
-                text = "Date",
-                fontSize = 17.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(start = 16.dp, top = 24.dp, bottom = 8.dp)
 
-            )
             PickerBox(
                 onClick = {
                     showDatePickerDialog = true
                 },
                 label = "Enter date here",
                 value = viewModel.date.value
-            )
-
-            Text(
-                text = "Time",
-                fontSize = 17.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(start = 16.dp, top = 24.dp, bottom = 8.dp)
             )
 
             PickerBox(
@@ -193,7 +174,7 @@ fun CreateNewTask(
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 16.dp)
+                .padding(vertical = 16.dp)
         ) {
             Text(
                 text = if(!isEdit) "Create" else "Update"

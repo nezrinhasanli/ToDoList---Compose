@@ -28,7 +28,6 @@ fun PickerBox(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
             .background(
                 color = MaterialTheme.colorScheme.background,
                 shape = shape
