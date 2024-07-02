@@ -38,7 +38,7 @@ fun CheckBoxList(
     navController: NavHostController
     ){
     val checkedItemList by viewModel.todoItemCheckedState.collectAsState()
-    val focusRequesters = remember { List(checkedItemList.size) { FocusRequester() } }
+    val focusRequesters = remember { MutableList(checkedItemList.size) { FocusRequester() } }
 
     Column(modifier = Modifier
         .fillMaxSize()
@@ -55,34 +55,34 @@ fun CheckBoxList(
         LazyColumn(modifier = Modifier.weight(1f)) {
 
             itemsIndexed(checkedItemList) {index, item ->
+
+//                val nextFocusRequester = if (index < checkedItemList.size - 1) {
+//                    focusRequesters[index + 1]
+//                } else {
+//                    FocusRequester()
+//                }
+
                 Row(
                     Modifier
                         .fillMaxWidth()
                         .height(56.dp)
-                        .padding(horizontal = 16.dp),
+                        .padding(horizontal = 8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Checkbox(
                         checked = item.checked ?: false,
-                        onCheckedChange = {}
+                        onCheckedChange = { checked ->
+//                            viewModel.isChecked(item.todoId ?: 0,checked)
+                        }
                     )
 
                         CheckBoxTextField(
                             value = viewModel.note.value,
                             onValueChange = { note ->
-
+//                                viewModel.note.value = note
                             },
-                            onNextClick = {
-                                viewModel.addCheckedItem(CheckedItem(
-                                    checked = false,
-                                    note = ""
-                                ))
-                            },
-                            focusRequester = focusRequesters[index],
-//                            nextFocusRequester = focusRequesters[index + 1]
-
+                           viewModel = viewModel
                         )
-
                 }
             }
             }

@@ -21,7 +21,7 @@ data class ToDoItem(
 data class CheckedItem(
     @PrimaryKey(autoGenerate = true) var checkedId: Int? = null,
     @ColumnInfo(name = "todoId") val todoId: Int? = null,
-    @ColumnInfo(name = "checked") val checked: Boolean? = null,
+    @ColumnInfo(name = "checked") var checked: Boolean? = null,
     @ColumnInfo(name = "title") var title: String? = null,
     @ColumnInfo(name = "note") val note: String? = null,
 )

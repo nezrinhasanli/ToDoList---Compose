@@ -1,5 +1,7 @@
 package com.example.todolist.ui.theme.viewmodel
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
@@ -30,7 +32,7 @@ class ToDoListViewModel @Inject constructor(private val repository:ToDoListRepos
     private val _todoItemState = MutableStateFlow(LCE<ToDoItem>())
 
     private val _todoItemCheckedState = MutableStateFlow(mutableListOf(CheckedItem(checked = false, note = "")))
-    val todoItemCheckedState:    MutableStateFlow<MutableList<CheckedItem>>
+    val todoItemCheckedState: MutableStateFlow<MutableList<CheckedItem>>
         get() = _todoItemCheckedState
 
     val todoItemState: MutableStateFlow<LCE<ToDoItem>>
@@ -44,12 +46,28 @@ class ToDoListViewModel @Inject constructor(private val repository:ToDoListRepos
     val time = mutableStateOf("")
     var itemId = 0
 
+    val notesMap = mutableStateMapOf<Int, Boolean>()
 
     fun addCheckedItem(item: CheckedItem) {
-
         _todoItemCheckedState.value = (_todoItemCheckedState.value + item).toMutableList()
+    }
+    fun removeCheckedItem(item: CheckedItem) {
+        _todoItemCheckedState.value = (_todoItemCheckedState.value - item).toMutableList()
+    }
 
+    fun isChecked(id: Int, isChecked: Boolean) {
+        _todoItemCheckedState.value.find { it.todoId == id }?.checked = isChecked
+        if (isChecked) {
+            notesMap[id] = true
+        } else {
+            notesMap.remove(id)
+        }
 
+    }
+    fun updateItem(index: Int, newItem: CheckedItem) {
+        val updatedList = _todoItemCheckedState.value.toMutableList()
+        updatedList[index] = newItem
+        _todoItemCheckedState.value = updatedList
     }
 
     fun insertTodo() {
